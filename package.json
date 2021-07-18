@@ -1,6 +1,7 @@
 {
   "name": "vaniakebo",
   "version": "0.1.0",
+  "author": "lunaticfriki",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.0",
