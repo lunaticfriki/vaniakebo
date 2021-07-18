@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect } from 'react'
+import Layout from './components/layout'
+import Question from './components/question'
+import ExpenseForm from './components/expenseForm'
+import List from './components/list'
+import BudgetControl from './components/budgetControl'
+import VaniaContext from './context'
 
 function App() {
+  const {
+    budget,
+    rest,
+    showQuestion,
+    expense,
+    expenses,
+    setExpenses,
+    setCreateExpense,
+    setRest,
+    createExpense,
+  } = useContext(VaniaContext)
+
+  useEffect(() => {
+    if (createExpense) {
+      setExpenses([...expenses, expense])
+      setCreateExpense(false)
+      const restExpense = rest - expense.quantity
+      setRest(restExpense)
+    }
+  }, [
+    expense,
+    createExpense,
+    expenses,
+    rest,
+    budget,
+    setCreateExpense,
+    setExpenses,
+    setRest,
+  ])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Layout>
+      <h3>Despeses mensuals</h3>
+      {showQuestion ? (
+        <Question />
+      ) : (
+        <>
+          <ExpenseForm />
+          {expenses.length > 0 && <List />}
+          <BudgetControl />
+        </>
+      )}
+    </Layout>
+  )
 }
 
-export default App;
+export default App
